@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h2>Welcome, {{ user_email }}</h2>
+
+    <p><a href="/logout">Logout</a></p>
+
+    <h3>Actions</h3>
+    <form method="post" action="/refresh-token">
+        <button type="submit">Refresh Access Token</button>
+    </form>
+
+    {% if is_admin %}
+    <hr>
+    <h3>Admin Controls</h3>
+    <form method="post" action="/admin/delete-user">
+        <label>Email to delete:</label>
+        <input type="email" name="target_email" required>
+        <button type="submit">Delete User</button>
+    </form>
+    {% endif %}
+</body>
+</html>
