@@ -1,27 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Dashboard</title>
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        header, footer { margin-bottom: 2rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 0.75rem; border: 1px solid #ccc; text-align: left; }
+        .admin-controls { background: #f9f9f9; padding: 1rem; border: 1px solid #ddd; margin-top: 2rem; }
+        button { padding: 0.5rem 1rem; }
+    </style>
 </head>
 <body>
-    <h2>Welcome, {{ user_email }}</h2>
+    <header>
+        <h1>Welcome, {{ user_email }}</h1>
+        <nav>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
 
-    <p><a href="/logout">Logout</a></p>
+    <main>
+        <section>
+            <h2>Dashboard Overview</h2>
+            <p>This is your personalized dashboard. You can view your activity and access tools based on your role.</p>
+        </section>
 
-    <h3>Actions</h3>
-    <form method="post" action="/refresh-token">
-        <button type="submit">Refresh Access Token</button>
-    </form>
+        {% if is_admin %}
+        <section class="admin-controls">
+            <h2>Admin Controls</h2>
+            <p>Manage users and system settings below.</p>
 
-    {% if is_admin %}
-    <hr>
-    <h3>Admin Controls</h3>
-    <form method="post" action="/admin/delete-user">
-        <label>Email to delete:</label>
-        <input type="email" name="target_email" required>
-        <button type="submit">Delete User</button>
-    </form>
-    {% endif %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in users %}
+                    {% if u.email != user_email %}
+                    <tr>
+                        <td>{{ u.email }}</td>
+                        <td>{{ u.role }}</td>
+                        <td>{{ "Active" if u.is_active else "Inactive" }}</td>
+                        <td>
+                            {% if u.is_active %}
+                            <form method="post" action="/admin/user/{{ u.id }}/deactivate">
+                                <button type="submit">Deactivate</button>
+                            </form>
+                            {% else %}
+                            <form method="post" action="/admin/user/{{ u.id }}/activate">
+                                <button type="submit">Activate</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        {% endif %}
+
+        <section>
+            <h2>Your Activity</h2>
+            <p>Coming soon: trade logs, system alerts, and performance metrics.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 algoService</p>
+    </footer>
 </body>
 </html>
