@@ -1,6 +1,9 @@
 To Generate virtual env 
 python -m venv venv
 
+To activate venv
+<Path>\venv\Scripts\activate  
+
 
 Python pacakages
 pip install fastapi uvicorn sqlalchemy bcrypt jinja2
