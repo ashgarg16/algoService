@@ -1,0 +1,74 @@
+
+
+Local:
+Security - Symbol
+Start price Level : 90,000
+Step size buying- 500
+Direction : Long
+Step size profit/sell - 750
+Lot multiplier : FLAT/Linear/Binary
+No of Steps: 10
+Re-Enter: True
+End Date - <Date>
+Auto Roll Over : True
+
+
+
+Start from : 90,000
+Direction: Long
+Step size: 1000
+Total lot 15:
+Lot multiplier : Binary 
+Step size profit/sell - 750
+same is before:
+
+SHORTS
+
+Same as above
+
+Covered Call - another strategy
+Future - buy
+Call Sell
+
+Future - Buy Price/ Criteria
+Call Sell Price / Criteria
+Overall loss:
+Target profit:
+Profit trailing:
+
+
+
+
+Positional long term:
+
+
+Global parameter
+
+Roll Over date: 
+Roll Over Symbol Strategy: that's is main strategy symbol
+
+
+
+Schema:
+
+Market data schema and service
+Position Table/ per Cust Id data
+Maintain Order ID or statuses for debugging/ per Cust Id data
+Schedule DB schema
+Algo parameter table also in DB - Algo ID + User ID
+Customer Auth Table
+Customer subscription table
+
+
+
+
+
+
+
+
+
+
+
+
+
+
