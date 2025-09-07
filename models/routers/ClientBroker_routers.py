@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.session import SessionLocal
 from app.services.client_broker import ClientBrokerService
+from typing import Optional
 
 router = APIRouter(prefix="/client-broker", tags=["Client Broker"])
 

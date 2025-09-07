@@ -24,3 +24,5 @@ class CustomerOrderService:
 
     def get_by_order_id(self, order_id: str) -> CustomerOrder | None:
         return self.session.query(CustomerOrder).filter_by(order_id=order_id).first()
+    
+    
