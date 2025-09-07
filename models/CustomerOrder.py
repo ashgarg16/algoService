@@ -1,8 +1,5 @@
-from sqlalchemy import (
-    Column, Integer, String, Float, DateTime, Date, Boolean,
-    UniqueConstraint, ForeignKey
-)
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Float, DateTime
 from datetime import datetime
 
 Base = declarative_base()
@@ -23,6 +20,7 @@ class CustomerOrder(Base):
     order_status = Column(String(15), nullable=False)  # PENDING, COMPLETED, REJECTED
     price = Column(Float, nullable=False)
     quantity = Column(Integer, nullable=False)
+    lot_count = Column(Integer, nullable=False, default=1)  # New field
     notes = Column(String(255), nullable=True)
 
     

@@ -18,6 +18,8 @@ class CustomerPosition(Base):
     position_type = Column(String(10), nullable=False)  # BUY or SELL
     quantity = Column(Integer, nullable=False)
     price = Column(Float, nullable=False)
+    position_status = Column(String(10), nullable=False, default="Open")  # Open or Closed
     notes = Column(String(255), nullable=True)
+
 
     
