@@ -1,0 +1,24 @@
+
+
+your_project/
+├── app/
+│   ├── main.py                  # FastAPI entry point
+│   ├── models.py                # SQLAlchemy models
+│   ├── session.py               # DB engine and session
+│   ├── config.py                # DB credentials
+│   ├── services/
+│   │   ├── stock_price.py
+│   │   ├── customer_profile.py
+│   │   ├── customer_order.py
+│   │   ├── customer_position.py
+│   │   ├── jobber_job.py
+│   │   └── algo_subscription.py
+│   └── routers/
+│       ├── stock_price.py
+│       ├── customer_profile.py
+│       ├── customer_order.py
+│       ├── customer_position.py
+│       ├── jobber_job.py
+│       └── algo_subscription.py
+
+
