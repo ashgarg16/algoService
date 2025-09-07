@@ -1,0 +1,31 @@
+CREATE TABLE customer_positions (
+    timestamp TIMESTAMP,             -- Time of position entry
+    customer_id SYMBOL,              -- Unique customer identifier
+    stock_name SYMBOL,               -- Stock ticker (e.g., 'AAPL', 'RELIANCE')
+    exchange_name SYMBOL,            -- Exchange (e.g., 'NASDAQ', 'NSE')
+    position_type SYMBOL,            -- 'BUY' or 'SELL'
+    quantity LONG,                   -- Number of shares
+    price DOUBLE,                    -- Price per share
+    notes STRING                     -- Optional remarks or metadata
+) timestamp(timestamp);
+
+Sample query
+
+INSERT INTO customer_positions
+    (timestamp, customer_id, stock_name, exchange_name, position_type, quantity, price, notes)
+VALUES
+    (now(), 'CUST123', 'AAPL', 'NASDAQ', 'BUY', 100, 189.50, 'Initial position');
+
+SELECT * FROM customer_positions
+WHERE customer_id = 'CUST123';
+
+
+SELECT * FROM customer_positions
+WHERE customer_id = 'CUST123' AND stock_name = 'AAPL';
+
+SELECT * FROM customer_positions
+WHERE customer_id = 'CUST123' AND stock_name = 'AAPL'
+LATEST ON timestamp;
+
+
+

@@ -15,3 +15,5 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     reset_token = Column(String(255), nullable=True)
     created_at = Column(DateTime, nullable=False)
+
+    

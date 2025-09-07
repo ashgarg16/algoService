@@ -22,8 +22,9 @@ Lot multiplier : Binary
 Step size profit/sell - 750
 same is before:
 
-SHORTS
 
+
+SHORTS
 Same as above
 
 Covered Call - another strategy
@@ -51,13 +52,13 @@ Roll Over Symbol Strategy: that's is main strategy symbol
 
 Schema:
 
-Market data schema and service
-Position Table/ per Cust Id data
-Maintain Order ID or statuses for debugging/ per Cust Id data
-Schedule DB schema
-Algo parameter table also in DB - Algo ID + User ID
-Customer Auth Table
-Customer subscription table
+1 Market data schema and service
+2 Position Table/ per Cust Id data
+3 Maintain Order ID or statuses for debugging/ per Cust Id data
+4 Schedule DB schema
+5 Algo parameter table also in DB - Algo ID + User ID
+6 Customer Auth Table
+7 Customer subscription table
 
 
 

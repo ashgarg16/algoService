@@ -1,0 +1,176 @@
+
+
+1 Market data schema and service
+
+Quest DB schema
+
+CREATE TABLE stock_prices (
+    timestamp TIMESTAMP,         -- Time of price capture
+    stock_name SYMBOL,           -- Stock ticker (e.g., 'AAPL', 'RELIANCE')
+    exchange_name SYMBOL,        -- Exchange name (e.g., 'NASDAQ', 'NSE')
+    price DOUBLE                 -- Latest market price
+) timestamp(timestamp);
+
+
+- SYMBOL types for both stock_name and exchange_name are ideal for repeated string values and are automatically indexed for fast filtering.
+- timestamp(timestamp) tells QuestDB to optimize for time-based queries.
+- No primary key keeps ingestion fast and flexible, especially for high-frequency updates.
+
+Example Query: Latest Price for a Stock
+SELECT * FROM stock_prices
+WHERE stock_name = 'AAPL'
+ORDER BY timestamp DESC
+LIMIT 1;
+
+You can batch insert multiple stocks at once too:
+INSERT INTO stock_prices
+    (timestamp, stock_name, exchange_name, price)
+VALUES
+    (now(), 'AAPL', 'NASDAQ', 189.23),
+    (now(), 'RELIANCE', 'NSE', 2734.56);
+
+
+This gives you the most recent price for RELIANCE on the NSE.
+SELECT * FROM stock_prices
+WHERE stock_name = 'RELIANCE' AND exchange_name = 'NSE'
+LATEST ON timestamp;
+
+
+
+
+
+Installing and running **QuestDB on a Windows machine** is surprisingly smooth. Here's a step-by-step guide to get it up and running with the default ports:
+
+---
+
+## 🖥️ Step-by-Step: Install & Run QuestDB on Windows
+
+### ✅ 1. **Download QuestDB Binary**
+- Visit the [QuestDB Quick Start page](https://questdb.com/docs/quick-start/)
+- Scroll to the **“Binaries”** section and download the **Windows version** (e.g., `questdb-9.x.x-no-jre-bin.zip`)
+- Extract the contents to a folder like `C:\questdb`
+
+> ⚠️ Note: This version requires **Java 17+** installed on your system. You can use [Amazon Corretto](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/downloads-list.html) or [AdoptOpenJDK](https://adoptium.net/)
+
+---
+
+### ⚙️ 2. **Set JAVA_HOME Environment Variable**
+- Open **System Properties > Environment Variables**
+- Add a new **System Variable**:
+  - Name: `JAVA_HOME`
+  - Value: path to your Java 17 installation (e.g., `C:\Program Files\Amazon Corretto\jdk17`)
+- Add `%JAVA_HOME%\bin` to your system `Path` variable
+
+---
+
+### 🚀 3. **Start QuestDB**
+Open **Command Prompt** or **PowerShell**, navigate to the extracted folder:
+```bash
+cd C:\questdb
+questdb.exe start
+```
+
+This will:
+- Launch the **Web Console** on `http://localhost:9000`
+- Enable **PostgreSQL wire protocol** on port `8812` for SQL clients
+- Start the **HTTP Ingress API** on port `9000` for data ingestion
+
+---
+
+### 🔍 4. **Verify Installation**
+- Open your browser and go to: `http://localhost:9000`
+- You should see the QuestDB Web Console
+- Try running a sample query:
+  ```sql
+  SELECT now();
+  ```
+
+---
+
+### 🧠 Optional: Run as a Windows Service
+To install QuestDB as a background service:
+```bash
+questdb.exe install -j "C:\Program Files\Amazon Corretto\jdk17"
+```
+To remove it later:
+```bash
+questdb.exe remove
+```
+
+---
+
+
+Any final issues you see-
+
+Great follow-up! After completing the QuestDB setup on your Windows machine, the earlier shared Python code will work **almost out of the box**, but here are a few **important tweaks and checks** to ensure smooth execution:
+
+---
+
+## ✅ What Will Work Immediately
+- **QuestDB Web Console** on `http://localhost:9000`
+- **PostgreSQL wire protocol** on port `8812` (used by `psycopg2`)
+- **HTTP Ingress API** on port `9000` (used by `questdb.ingress`)
+
+---
+
+## 🧩 What You Need to Adjust or Confirm
+
+### 1. **Install Required Python Packages**
+Run this in your terminal:
+```bash
+pip install questdb psycopg2-binary
+```
+
+### 2. **Create the Table in QuestDB**
+Run this SQL in the Web Console (`http://localhost:9000`):
+```sql
+CREATE TABLE stock_prices (
+    timestamp TIMESTAMP,
+    stock_name SYMBOL,
+    exchange_name SYMBOL,
+    price DOUBLE
+) timestamp(timestamp);
+```
+
+### 3. **Update Credentials in Python Code**
+If you're using default QuestDB settings, update the config in `questdb_stock.py`:
+```python
+USERNAME = "admin"      # Default user
+PASSWORD = "quest"      # Default password
+```
+If you didn’t set a password, you can leave it blank or remove authentication entirely from the sender.
+
+### 4. **Enable HTTP Ingress (if not already)**
+In the QuestDB config file (`server.conf`), ensure:
+```properties
+line.http.enabled=true
+```
+This is usually enabled by default in the Windows binary.
+
+---
+
+## 🧪 Final Test
+
+Once everything is set:
+```python
+from questdb_stock import insert_latest_quote, get_latest_price
+
+insert_success = insert_latest_quote("AAPL", "NASDAQ", 189.23)
+print("Insert success:", insert_success)
+
+latest_price = get_latest_price("AAPL", "NASDAQ")
+print("Latest price:", latest_price)
+```
+
+You should see:
+```
+Insert success: True
+Latest price: 189.23
+```
+
+---
+
+If you want to wrap this into a Flask API or automate ingestion from a live feed, I can help you build that next.
+
+
+Let me know if you want to wrap this into a REST API, add batch ingestion, or build a dashboard on top of it
