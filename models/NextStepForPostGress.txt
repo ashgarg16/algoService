@@ -4,3 +4,15 @@ You can now:
 - Extend with FastAPI or Flask for RESTful access
 - Add authentication, analytics, or dashboards on top
 If you'd like, I can generate a full set of CRUD functions for each table or help you scaffold a REST API layer. Ready to take this live
+
+
+
+
+Position
+Open/Closed
+
+Customer_order
+Lot Size - Qty
+
+Broket Account ID
+

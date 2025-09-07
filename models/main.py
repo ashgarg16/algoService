@@ -5,7 +5,8 @@ from app.routers import (
     customer_order,
     customer_position,
     jobber_job,
-    algo_subscription
+    algo_subscription,
+    client_broker
 )
 
 app = FastAPI(title="Trading System API")
@@ -16,3 +17,5 @@ app.include_router(customer_order.router)
 app.include_router(customer_position.router)
 app.include_router(jobber_job.router)
 app.include_router(algo_subscription.router)
+app.include_router(client_broker.router)
+
